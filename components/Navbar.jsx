@@ -18,6 +18,8 @@ const Navbar = () => {
         <AiOutlineShopping />
         <span className="cart-item-qty">{totalQuantities}</span>
       </button>
+      <p><Link href="/login">Login</Link></p>
+      
 
       {showCart && <Cart />}
     </div>

@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {useRouter, Router} from 'next/router';
 import { Toaster } from 'react-hot-toast';
 
-
 import { Layout } from '../components';
 import '../styles/globals.css';
 import { StateContext } from '../context/StateContext';
+
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

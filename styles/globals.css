@@ -620,6 +620,11 @@ margin-top: 160px;
 .product-max-qty{
   margin-top: 10px;
 }
+.login_box {
+  width: 340px;
+
+  background-color: #fff;
+}
 
 @media screen and (max-width:800px) {
   .hero-banner-container{
