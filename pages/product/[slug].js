@@ -4,11 +4,11 @@ import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-
 import { client, urlFor } from '../../lib/client';
 import { Product } from '../../components';
 import { useStateContext } from '../../context/StateContext';
+import Head from 'next/head';
 
 const ProductDetails = ({ product, products, vendor}) => {
   const { image, name, details, price} = product;
   const { title, logo } = vendor;
-  // const {  } = vendor;
   const [index, setIndex] = useState(0);
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
@@ -21,6 +21,9 @@ const ProductDetails = ({ product, products, vendor}) => {
   return (
     <div>
       <div className="product-detail-container">
+        <Head>
+          <title>{name}</title>
+        </Head>
         <div>
           <div className="image-container">
             <img src={urlFor(image && image[index])} className="product-detail-image" />
