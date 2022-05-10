@@ -6,7 +6,7 @@ import NextLink from 'next/link'
 import Head from 'next/head';
 
 
-export default function login() {
+export default function register() {
     const { handleSubmit, control, formState: {errors}} = useForm();
     const submitHandler = async(name, email, password, confirmPassword) =>{
 
