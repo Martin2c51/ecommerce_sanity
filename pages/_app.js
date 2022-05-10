@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter, Router} from 'next/router';
 import { Toaster } from 'react-hot-toast';
+
 
 import { Layout } from '../components';
 import '../styles/globals.css';
