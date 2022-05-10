@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-TSS5FSL');`}}></script>
       {/* <!-- End Google Tag Manager --> */}
-        <title>Martin2c51</title>
+        <title>Gnar - HOME</title>
       </Head>
       <header>
         <Navbar />
