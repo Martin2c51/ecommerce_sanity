@@ -7,6 +7,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import product from './product';
 import banner from './banner';
 import vendor from './vendor';
+import user from './user';
 import blockContent from "./blockContent";
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -19,6 +20,7 @@ export default createSchema({
     [ product,
       banner,
       vendor,
+      user,
       blockContent,
     ]
   ),

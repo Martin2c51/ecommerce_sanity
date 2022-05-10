@@ -4,13 +4,51 @@ import {useForm, Controller} from 'react-hook-form';
 import Form from '../components/Form'
 import NextLink from 'next/link'
 import Head from 'next/head';
+import { useSnackbar } from 'notistack';
+import axios from 'axios';
+import jsCookie from 'js-cookie';
+import { useRouter } from 'next/router';
+// import { Store } from '../lib/Store';
 
 
 export default function register() {
-    const { handleSubmit, control, formState: {errors}} = useForm();
-    const submitHandler = async(name, email, password, confirmPassword) =>{
+  const { handleSubmit, control, formState: {errors}} = useForm();
+  const submitHandler = async(name, email, password, confirmPassword) =>{
 
-    }
+  }
+  // const { state, dispatch } = useContext(Store);
+  // const { userInfo } = state;
+  // const router = useRouter();
+  // const { redirect } = router.query;
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     router.push(redirect || '/');
+  //   }
+  // }, [router, userInfo, redirect]);
+  //   const { handleSubmit, control, formState: {errors}} = useForm();
+
+  //   const { enqueueSnackbar } = useSnackbar();
+
+  //   const submitHandler = async(name, email, password, confirmPassword) =>{
+  //     if(password !== confirmPassword){
+  //       enqueueSnackbar("Passwords don't match", { variant: 'error' });
+  //       return;
+  //     }
+  //     try {
+  //       const { data } = await axios.post('/api/users/register', {
+  //         name,
+  //         email,
+  //         password,
+  //       });
+  //       dispatch({ type: 'USER_LOGIN', payload: data });
+  //       jsCookie.set('userInfo', JSON.stringify(data));
+  //       router.push(redirect || '/');
+  //     } catch (err) {
+  //       enqueueSnackbar(getError(err), { variant: 'error' });
+  //     }
+
+  //   };
   return (
     <Form onSubmit={handleSubmit(submitHandler)}>
         <Head>
