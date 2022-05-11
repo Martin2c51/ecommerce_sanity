@@ -22,7 +22,7 @@ handler.post(async(res, res) => {
       ];
       
       const { data } = await axios.post(
-        `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
+        `https://${projectId}.api.sanity.io/v2021-08-31/data/mutate/${dataset}?returnIds=true`,
         { mutations: createMutations },
         {
             headers: {

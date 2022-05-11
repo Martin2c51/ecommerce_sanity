@@ -1,7 +1,30 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState,useReducer, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import Cookies from 'js-cookie';
 
 const Context = createContext();
+
+const initialState = {
+  userInfo: Cookies.get('userInfo')
+    ? JSON.parse(Cookies.get('userInfo'))
+    : null,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+
+    case 'USER_LOGIN':
+      return { ...state, userInfo: action.payload };
+    case 'USER_LOGOUT':
+      return {
+        ...state,
+        userInfo: null,
+      };
+    default:
+      return state;
+  }
+}
+
 
 export const StateContext = ({ children }) => {
   const [showCart, setShowCart] = useState(false);
@@ -9,6 +32,10 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+  // const value = { state, dispatch };
+  
 
   let foundProduct;
   let index;
@@ -85,6 +112,8 @@ export const StateContext = ({ children }) => {
         totalPrice,
         totalQuantities,
         qty,
+        state,
+        dispatch,
         incQty,
         decQty,
         onAdd,
@@ -99,5 +128,7 @@ export const StateContext = ({ children }) => {
     </Context.Provider>
   )
 }
+
+
 
 export const useStateContext = () => useContext(Context);

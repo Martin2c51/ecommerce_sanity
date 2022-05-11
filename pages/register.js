@@ -1,56 +1,74 @@
 import { List,Link, ListItem, TextField, Typography, Button } from '@mui/material';
-import React from 'react'
+import React, { useContext, useEffect } from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import Form from '../components/Form'
 import NextLink from 'next/link'
 import Head from 'next/head';
-import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
-// import { Store } from '../lib/Store';
+import { useStateContext } from '../context/StateContext';
+import { toast } from 'react-hot-toast';
+import { getError } from '../lib/error'
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default function register() {
-  const { handleSubmit, control, formState: {errors}} = useForm();
-  const submitHandler = async(name, email, password, confirmPassword) =>{
+  const { state, dispatch } = useStateContext()
+  const { userInfo } = state;
+  const router = useRouter();
+  const { redirect } = router.query;
 
+  useEffect(() => {
+    if (userInfo) {
+      router.push(redirect || '/');
+    }
+  }, [router, userInfo, redirect]);
+    const {handleSubmit, control, formState: {errors}} = useForm();
+    const { register, formState } = useForm();
+    const onSubmit = async (name, email, password, confirmPassword) => {
+      await sleep(2000);
+      if (password !== confirmPassword) {
+        toast.error("Passwords don't match", { variant: 'error' });
+        // alert(JSON.stringify(name, email, password, confirmPassword));
+      } try {
+        const { data } = await axios.post('/api/register', {
+          name,
+          email,
+          password,
+        });
+        // dispatch({ type: 'USER_LOGIN', payload: data });
+        // jsCookie.set('userInfo', JSON.stringify(data));
+        // router.push(redirect || '/');
+      } catch (err) {
+        // toast.error(getError(err), { variant: 'error' });
+        alert(JSON.stringify(getError(err)));
+      }
+      
   }
-  // const { state, dispatch } = useContext(Store);
-  // const { userInfo } = state;
-  // const router = useRouter();
-  // const { redirect } = router.query;
+    
+    const submitHandler = async(name, email, password, confirmPassword) =>{
+      if(password !== confirmPassword){
+        toast.error("Passwords don't match", { variant: 'error' });
+        return;
+      }
+      try {
+        const { data } = await axios.post('/api/register', {
+          name,
+          email,
+          password,
+        });
+        // dispatch({ type: 'USER_LOGIN', payload: data });
+        // jsCookie.set('userInfo', JSON.stringify(data));
+        // router.push(redirect || '/');
+      } catch (err) {
+        console.log(getError(err))
+        // toast.error(getError(err), { variant: 'error' });
+      }
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     router.push(redirect || '/');
-  //   }
-  // }, [router, userInfo, redirect]);
-  //   const { handleSubmit, control, formState: {errors}} = useForm();
-
-  //   const { enqueueSnackbar } = useSnackbar();
-
-  //   const submitHandler = async(name, email, password, confirmPassword) =>{
-  //     if(password !== confirmPassword){
-  //       enqueueSnackbar("Passwords don't match", { variant: 'error' });
-  //       return;
-  //     }
-  //     try {
-  //       const { data } = await axios.post('/api/users/register', {
-  //         name,
-  //         email,
-  //         password,
-  //       });
-  //       dispatch({ type: 'USER_LOGIN', payload: data });
-  //       jsCookie.set('userInfo', JSON.stringify(data));
-  //       router.push(redirect || '/');
-  //     } catch (err) {
-  //       enqueueSnackbar(getError(err), { variant: 'error' });
-  //     }
-
-  //   };
+    };
   return (
-    <Form onSubmit={handleSubmit(submitHandler)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
         <Head>
             <title>Register</title>
         </Head>
@@ -177,7 +195,7 @@ export default function register() {
                 Already have an account?{' '}
                 {/* <NextLink href={`/register?redirect=${redirect || '/'}`} passHref> */}
                 <NextLink href={'/login'}>
-                    <Link>Register</Link>
+                    <Link>Login</Link>
                 </NextLink>
           </ListItem>
         </List>

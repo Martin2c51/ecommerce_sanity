@@ -23,6 +23,7 @@
     "formik": "^2.2.9",
     "i": "^0.3.7",
     "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
     "next": "12.1.0",
     "next-sanity-image": "^3.2.1",
     "notistack": "^2.0.3",
