@@ -4,14 +4,15 @@ import {useForm, Controller} from 'react-hook-form';
 import Form from '../components/Form'
 import NextLink from 'next/link'
 import Head from 'next/head';
-import axios from 'axios';
 import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useStateContext } from '../context/StateContext';
 import { toast } from 'react-hot-toast';
-import { getError } from '../lib/error'
+import { getError } from '../lib/error';
+import axios from 'axios';
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+import fetch from 'node-fetch';
 
 export default function register() {
   const { state, dispatch } = useStateContext()
@@ -19,56 +20,39 @@ export default function register() {
   const router = useRouter();
   const { redirect } = router.query;
 
-  useEffect(() => {
-    if (userInfo) {
-      router.push(redirect || '/');
-    }
-  }, [router, userInfo, redirect]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     router.push(redirect || '/');
+  //   }
+  // }, [router, userInfo, redirect]);
     const {handleSubmit, control, formState: {errors}} = useForm();
-    const { register, formState } = useForm();
-    const onSubmit = async (name, email, password, confirmPassword) => {
-      await sleep(2000);
-      if (password !== confirmPassword) {
-        toast.error("Passwords don't match", { variant: 'error' });
-        // alert(JSON.stringify(name, email, password, confirmPassword));
-      } try {
-        const { data } = await axios.post('/api/register', {
-          name,
-          email,
-          password,
-        });
-        // dispatch({ type: 'USER_LOGIN', payload: data });
-        // jsCookie.set('userInfo', JSON.stringify(data));
-        // router.push(redirect || '/');
-      } catch (err) {
-        // toast.error(getError(err), { variant: 'error' });
-        alert(JSON.stringify(getError(err)));
-      }
-      
-  }
     
-    const submitHandler = async(name, email, password, confirmPassword) =>{
-      if(password !== confirmPassword){
+    const submitHandler = async ({ name, email, password, confirmPassword }) => {
+      if (password !== confirmPassword) {
         toast.error("Passwords don't match", { variant: 'error' });
         return;
       }
       try {
+        alert(JSON.stringify("data"));
         const { data } = await axios.post('/api/register', {
           name,
           email,
           password,
         });
-        // dispatch({ type: 'USER_LOGIN', payload: data });
-        // jsCookie.set('userInfo', JSON.stringify(data));
-        // router.push(redirect || '/');
+        alert(JSON.stringify("data 2"));
+        dispatch({ type: 'USER_LOGIN', payload: data });
+        jsCookie.set('userInfo', JSON.stringify(data));
+        router.push(redirect || '/');
+        
       } catch (err) {
         console.log(getError(err))
         // toast.error(getError(err), { variant: 'error' });
+        alert(JSON.stringify(getError(err)));
       }
 
     };
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(submitHandler)}>
         <Head>
             <title>Register</title>
         </Head>
@@ -105,87 +89,94 @@ export default function register() {
               )}
             ></Controller>
           </ListItem>
-            <ListItem>
-                <Controller 
-                name="email" 
-                control={control} 
-                defaultValue="" 
-                rules={{
-                    required: true, 
-                    pattern:/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                    }}
-                render={({field}) =>(
-                   <TextField 
-                   variant='outlined' 
-                   fullWidth 
-                   id="email" 
-                   label="Email" 
-                   inputProps={{type:'email'}} 
-                   error={Boolean(errors.email)}
-                   helperText={errors.email
-                    ? errors.email.type==='´pattern'
-                    ?'Email is not valid'
-                    :'Email is requierd'
-                    :''}{...field}>
-                    </TextField> 
-                )}>
-            </Controller>
-        </ListItem>
-        <ListItem>
-            <Controller 
-                name="password" 
-                control={control} 
-                defaultValue="" 
-                rules={{
-                    required: true, 
-                    minLength: 6
-                    }}
-                render={({field}) =>(
-                   <TextField 
-                   variant='outlined' 
-                   fullWidth 
-                   id="password" 
-                   label="Password" 
-                   inputProps={{type:'password'}} 
-                   error={Boolean(errors.password)}
-                   helperText={errors.password
-                    ? errors.password.type==='minLength'
-                    ?'Password is not valid'
-                    :'Password is requierd'
-                    :''}{...field}>
-                    </TextField> 
-                )}>
-                </Controller>
-            </ListItem>
-            <ListItem>
-                <Controller
-                name="confirmPassword"
-                control={control}
-                defaultValue=""
-                rules={{
-                    required: true,
-                    minLength: 6,
-                }}
-                render={({ field }) => (
-                    <TextField
-                    variant="outlined"
-                    fullWidth
-                    id="confirmPassword"
-                    label="Confirm Password"
-                    inputProps={{ type: 'password' }}
-                    error={Boolean(errors.confirmPassword)}
-                    helperText={
-                        errors.confirmPassword
-                        ? errors.confirmPassword.type === 'minLength'
-                            ? 'Confirm Password not macth'
-                            : 'Confirm Password is required'
-                        : ''
-                    }
-                    {...field}
-                    ></TextField>
-                )}
-                ></Controller>
-            </ListItem>
+
+          <ListItem>
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+              }}
+              render={({ field }) => (
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  inputProps={{ type: 'email' }}
+                  error={Boolean(errors.email)}
+                  helperText={
+                    errors.email
+                      ? errors.email.type === 'pattern'
+                        ? 'Email is not valid'
+                        : 'Email is required'
+                      : ''
+                  }
+                  {...field}
+                ></TextField>
+              )}
+            ></Controller>
+          </ListItem>
+          <ListItem>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                minLength: 6,
+              }}
+              render={({ field }) => (
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  inputProps={{ type: 'password' }}
+                  error={Boolean(errors.password)}
+                  helperText={
+                    errors.password
+                      ? errors.password.type === 'minLength'
+                        ? 'Password length is more than 5'
+                        : 'Password is required'
+                      : ''
+                  }
+                  {...field}
+                ></TextField>
+              )}
+            ></Controller>
+          </ListItem>
+          <ListItem>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                minLength: 6,
+              }}
+              render={({ field }) => (
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  inputProps={{ type: 'password' }}
+                  error={Boolean(errors.confirmPassword)}
+                  helperText={
+                    errors.confirmPassword
+                      ? errors.confirmPassword.type === 'minLength'
+                        ? 'Confirm Password length is more than 5'
+                        : 'Confirm Password is required'
+                      : ''
+                  }
+                  {...field}
+                ></TextField>
+              )}
+            ></Controller>
+          </ListItem>
             <ListItem>
                 <Button variant='contained' type="submit" fullWidth color='primary'>
                     Register

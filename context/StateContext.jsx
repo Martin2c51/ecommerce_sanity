@@ -6,8 +6,8 @@ const Context = createContext();
 
 const initialState = {
   userInfo: Cookies.get('userInfo')
-    ? JSON.parse(Cookies.get('userInfo'))
-    : null,
+    // ? JSON.parse(Cookies.get('userInfo'))
+    // : null,
 };
 
 function reducer(state, action) {
