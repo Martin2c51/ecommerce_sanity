@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
             'event': 'virtualPageview',
             'virtualPageURL': url,
             'virtualPageTitle': title,
+            'pagina2':"Hola Manu"
         });
     }
     useEffect(() => {
