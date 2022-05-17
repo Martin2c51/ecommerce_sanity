@@ -8,6 +8,10 @@ const Layout = ({ children }) => {
   return (
     <div className="layout">
       <Head>
+      <title>Gnar - HOME</title>
+      <script dangerouslySetInnerHTML={{ __html: `
+        dataLayer = [];`}}>
+      </script>
       {/* <!-- Google Tag Manager --> */}
         <script dangerouslySetInnerHTML={{ __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -15,7 +19,6 @@ const Layout = ({ children }) => {
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-TSS5FSL');`}}></script>
       {/* <!-- End Google Tag Manager --> */}
-        <title>Gnar - HOME</title>
       </Head>
       <header>
         <Navbar />
