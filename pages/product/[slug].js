@@ -24,13 +24,13 @@ const ProductDetails = ({ product, products, vendor}) => {
       <div className="product-detail-container">
         <Head>
           <title>{name}</title>
-          <noscript dangerouslySetInnerHTML={{ __html: `dataLayer.push({
+          <script dangerouslySetInnerHTML={{ __html: `dataLayer.push({
                                                         'event': 'productView',
                                                         'productName': ${name},
                                                         'prodyctPrice': ${price},
                                                         'sellerName':${title}
                                                     })`}}>
-        </noscript>
+        </script>
         </Head>
         <div>
           <div className="image-container">
