@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       <Head>
       <title>Gnar - HOME</title>
       <script dangerouslySetInnerHTML={{ __html: `
-        dataLayer = [];`}}>
+        window.dataLayer = window.dataLayer || [];`}}>
       </script>
       {/* <!-- Google Tag Manager --> */}
         <script dangerouslySetInnerHTML={{ __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
