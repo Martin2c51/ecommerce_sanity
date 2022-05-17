@@ -17,6 +17,15 @@ const ProductDetails = ({ product, products, vendor}) => {
 
     setShowCart(true);
   }
+  const pageView = (name, price, title) => {
+    window && window.dataLayer && window.dataLayer.push({
+        'event': 'productView',
+        'productName': name,
+        'prodyctPrice': price,
+        'sellerName':title
+    });
+}
+  pageView(name, price, title)
 
   return (
     <div>
