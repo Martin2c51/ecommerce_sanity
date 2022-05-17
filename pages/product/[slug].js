@@ -6,26 +6,27 @@ import { Product } from '../../components';
 import { useStateContext } from '../../context/StateContext';
 import Head from 'next/head';
 
+const pageView = (name, price, title) => {
+  window && window.dataLayer && window.dataLayer.push({
+      'event': 'productView',
+      'productName': name,
+      'prodyctPrice': price,
+      'sellerName':title
+  });
+}
+
 const ProductDetails = ({ product, products, vendor}) => {
   const { image, name, details, price} = product;
   const { title, logo } = vendor;
   const [index, setIndex] = useState(0);
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
-
+  pageView(name, price, title)
   const handleBuyNow = () => {
     onAdd(product, qty);
 
     setShowCart(true);
   }
-  const pageView = (name, price, title) => {
-    window && window.dataLayer && window.dataLayer.push({
-        'event': 'productView',
-        'productName': name,
-        'prodyctPrice': price,
-        'sellerName':title
-    });
-}
-  pageView(name, price, title)
+  
 
   return (
     <div>
